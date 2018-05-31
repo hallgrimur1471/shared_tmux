@@ -27,5 +27,8 @@ if [[ "$?" == 0 ]];then # it exists
   error "$msg"
   exit 1
 else
-  tmux -S $session_file new-session
+  # create a new-session and attach to it
+  tmux -S $session_file new-session -d
+  chmod 777 $session_file
+  tmux -S $session_file attach-session
 fi

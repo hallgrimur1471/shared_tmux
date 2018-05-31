@@ -5,14 +5,14 @@ project_root=$(dirname "$0")
 project_root=$(readlink -f $project_root) # make sure . gets expanded
 cd $project_root
 
-host_size_file="./host_size.txt"
+host_size_file="./host_size.conf"
 
 echo "welcome"
 while [ true ]; do
   user_lines="`tput lines`"
   user_columns="`tput cols`"
   host_lines="`cat $host_size_file | head -2 | tail -1 | awk '{print $2}'`"
-  host_columns="`cat $host_size_file | head -3 | tail -1 | awk '{print $2}'`"sdf
+  host_columns="`cat $host_size_file | head -3 | tail -1 | awk '{print $2}'`"
 
   cat $host_size_file
   echo "`readlink -f .`"
@@ -32,6 +32,7 @@ while [ true ]; do
     printf "$msg"
   else
     tmux -S /tmp/shared_tmux attach-session -r
+    exit 0
   fi
   sleep 0.1
 done

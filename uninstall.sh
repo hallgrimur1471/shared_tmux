@@ -11,16 +11,13 @@ if thereIsAHelpArgument "$@"; then
   exit 0
 fi
 
-# disable and remove shared-tmux in systemd
-service=shared-tmux
-systemctl status ${service} > /dev/null 2>&1 # check if service exists
-if [[ "$?" != 3 ]]; then # only proceed if the service exists
-  sudo systemctl stop ${service}
-  sudo systemctl disable ${service}
-fi
-if [[ -f /etc/systemd/system/${service}.service ]]; then
-  sudo rm /etc/systemd/system/${service}.service
-fi
+# cd to the directory of this script
+project_root=$(dirname "$0")
+project_root=$(readlink -f $project_root) # make sure . gets expanded
+cd $project_root
+
+# stop a shared_tmux session if it's running
+./package/bin/stop_shared_tmux_session 2>/dev/null
 
 # remove share files
 share_location=/usr/local/share/shared_tmux

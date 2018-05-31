@@ -23,12 +23,6 @@ project_root=$(dirname "$0")
 project_root=$(readlink -f $project_root) # make sure . gets expanded
 cd $project_root
 
-# make sure systemd is installed
-systemd --version >/dev/null 2>&1
-if [[ "$?" != "0" ]]; then
-  error "systemd must be installed"
-fi
-
 # make sure tmux is installed
 tmux -V > /dev/null 2>&1
 if [[ "$?" != "0" ]]; then
@@ -44,16 +38,8 @@ deploy_location=/usr/local/share/shared_tmux
 if [[ ! -d "$deploy_location" ]]; then
   sudo mkdir -p $deploy_location
 fi
-sudo cp ./package/perpetual_size_checker.sh $deploy_location
 sudo cp ./package/gatekeeper.sh $deploy_location
-
-# enable and start shared-tmux service in systemd
-service=shared-tmux
-sudo cp ./package/${service}.service /etc/systemd/system/
-sudo chown root:root /etc/systemd/system/${service}.service
-sudo chmod 731 /etc/systemd/system/${service}.service
-sudo systemctl enable ${service}
-sudo systemctl start ${service}
+sudo cp ./package/host_size.conf $deploy_location
 
 # deploy bin files
 deploy_bin() {
@@ -82,8 +68,15 @@ else
   echo "${user}:${password}" | sudo chpasswd
 
   # run gatekeeper.sh instead of /bin/bash on login
-  sudo sed -i \
-    "s/\(^${user}.*\)\(:[^:]*$\)/\1:\/usr\/local\/share\/shared_tmux\/gatekeeper\.sh/" /etc/passwd
+  p1="\(^${user}.*\)" # matches first part of line
+  p2="\(:[^:]*$\)" # this will match :/bin/bash at the end of line
+  gate_path="\/usr\/local\/share\/shared_tmux\/gatekeeper\.sh"
+  sudo sed -i "s/${p1}${p2}/\1:${gate_path}/" /etc/passwd
+  #echo "s/${p1}${p2}/\1:${gate_path}/"
+  #sudo sed -i \
+  #  "s/${p1}${p2}/\1:\/usr\/local\/share\/shared_tmux\/gatekeeper\.sh/" /etc/passwd
+  #sudo sed -i \
+  #  "s/${p1}\(:[^:]*$\)/\1:\/usr\/local\/share\/shared_tmux\/gatekeeper\.sh/" /etc/passwd
 fi
 
 echo "Install complete"

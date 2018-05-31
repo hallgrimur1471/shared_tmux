@@ -11,18 +11,12 @@ if thereIsAHelpArgument "$@"; then
   exit 0
 fi
 
-error() {
-  msg="$1"
-  (2>&1 echo "Error: $msg")
-}
-
 session_file=/tmp/shared_tmux
 
 tmux -S $session_file has-session >/dev/null 2>&1
 if [[ "$?" != 0 ]];then # it does not exists
   msg="No shared_tmux session is running"
-  error "$msg"
-  exit 1
+  (>&2 echo "$msg")
 else
   tmux -S $session_file kill-session
   rm $session_file

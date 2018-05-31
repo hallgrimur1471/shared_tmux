@@ -24,7 +24,7 @@ Ask the host for the password, he sets it during his installation of `shared_tmu
 
 ### Disconnecting (for clients)
 
-Press Ctrl+a d
+Ctrl+a d
 
 ### Installing (for hosts)
 

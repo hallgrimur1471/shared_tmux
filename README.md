@@ -22,6 +22,10 @@ ssh read_shared_tmux@<host_ip_address>
 ```
 Ask the host for the password, he sets it during his installation of `shared_tmux`.
 
+### Disconnecting (for clients)
+
+Press Ctrl+a d
+
 ### Installing (for hosts)
 
 ```

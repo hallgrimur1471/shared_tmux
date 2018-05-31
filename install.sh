@@ -72,11 +72,6 @@ else
   p2="\(:[^:]*$\)" # this will match :/bin/bash at the end of line
   gate_path="\/usr\/local\/share\/shared_tmux\/gatekeeper\.sh"
   sudo sed -i "s/${p1}${p2}/\1:${gate_path}/" /etc/passwd
-  #echo "s/${p1}${p2}/\1:${gate_path}/"
-  #sudo sed -i \
-  #  "s/${p1}${p2}/\1:\/usr\/local\/share\/shared_tmux\/gatekeeper\.sh/" /etc/passwd
-  #sudo sed -i \
-  #  "s/${p1}\(:[^:]*$\)/\1:\/usr\/local\/share\/shared_tmux\/gatekeeper\.sh/" /etc/passwd
 fi
 
 echo "Install complete"

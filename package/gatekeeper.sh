@@ -7,7 +7,6 @@ cd $project_root
 
 host_size_file="./host_size.conf"
 
-echo "welcome"
 while [ true ]; do
   user_lines="`tput lines`"
   user_columns="`tput cols`"

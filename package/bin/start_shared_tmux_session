@@ -4,7 +4,7 @@
 displayHelp() {
   printf "Usage: start_shared_tmux_session\n"
   printf "Starts a new tmux session for shared_tmux and attaches to it. If a "
-  printf "shared_tmux session already exists this script will not overwrite it"
+  printf "shared_tmux session already exists this script will NOT overwrite it"
 }
 thereIsAHelpArgument() { [[($# -eq 1 && ($1 = -h || $1 = --help)) ]]; }
 if thereIsAHelpArgument "$@"; then

@@ -70,7 +70,7 @@ When clients try to attach to your `shared_tmux` session they will be asked to i
 
 ## Acknowledgement
 
-To [Steina](https://github.com/steina1989) for telling me about the commands `tput lines` and `tput cols`!
+Kudos to [Steina](https://github.com/steina1989) for telling me about the commands `tput lines` and `tput cols`!
 
 ## License
 

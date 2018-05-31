@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+# maybe display help
+displayHelp() {
+  printf "Usage: start_shared_tmux_session\n"
+  printf "Starts a new tmux session for shared_tmux and attaches to it. If a "
+  printf "shared_tmux session already exists this script will not overwrite it"
+}
+thereIsAHelpArgument() { [[($# -eq 1 && ($1 = -h || $1 = --help)) ]]; }
+if thereIsAHelpArgument "$@"; then
+  displayHelp
+  exit 0
+fi
+
+error() {
+  msg="$1"
+  (2>&1 echo "Error: $msg")
+}
+
+session_file=/tmp/shared_tmux
+
+# if a shared_tmux session already exists, just notify that
+tmux -S $session_file has-session >/dev/null 2>&1
+if [[ "$?" == 0 ]];then # it exists
+  msg="A shared_tmux session is already running. Attach to it with the "
+  msg+="command: attach_shared_tmux"
+  error "$msg"
+  exit 1
+else
+  tmux -S $session_file new-session
+fi

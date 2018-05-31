@@ -1,0 +1,3 @@
+# set minimum terminal lines/column with for clients that attach to shared_tmux
+lines 72
+columns 136

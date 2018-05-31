@@ -1,0 +1,16 @@
+[Unit]
+Description=Continuously update /usr/local/share/shared_tmux/host_size.txt \
+            to represent the no. lines and columns in the hosts shared_tmux \
+            session
+
+[Service]
+Type=simple
+RemainAfterExit=no
+User=root
+Group=root
+ExecStart=/usr/local/share/shared_tmux/perpetual_size_checker.sh
+RestartSec=60
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

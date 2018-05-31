@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+# maybe display help
+displayHelp() {
+  printf "Usage: stop_shared_tmux_session\n"
+  printf "Stop a running shared_tmux session\n"
+}
+thereIsAHelpArgument() { [[($# -eq 1 && ($1 = -h || $1 = --help)) ]]; }
+if thereIsAHelpArgument "$@"; then
+  displayHelp
+  exit 0
+fi
+
+error() {
+  msg="$1"
+  (2>&1 echo "Error: $msg")
+}
+
+session_file=/tmp/shared_tmux
+
+tmux -S $session_file has-session >/dev/null 2>&1
+if [[ "$?" != 0 ]];then # it does not exists
+  msg="No shared_tmux session is running"
+  error "$msg"
+  exit 1
+else
+  tmux -S $session_file kill-session
+  rm $session_file
+fi

@@ -16,7 +16,8 @@ while [ true ]; do
   cat $host_size_file
   echo "`readlink -f .`"
   echo "$user_lines, $host_lines, $user_columns, $host_columns"
-  if (( $user_lines < $host_lines )); then
+  if [[ (( $user_lines < $host_lines )) || \
+     (( $user_columns < $host_columns )) ]]; then
     diff_lines=$(($host_lines - $user_lines))
     diff_columns=$(($host_columns - $user_columns))
     if (( $diff_lines < 0 )); then
